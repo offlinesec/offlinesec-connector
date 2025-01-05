@@ -76,6 +76,21 @@ offlinesec_connector -c DEV
 ```
 Please refer to [the doc](./docs/offlinesec_connector.md)
 
+What access we need:
+* S_TABU_NAM:ACTVT=03
+  S_TABU_NAM:TABLE=CWBNTCUST, PATCHHIST
+* S_RFC:ACTVT=16
+  S_RFC:RFC_TYPE=FUGR
+  S_RFC:RFC_NAME=SDTX, OCS_CRM
+
+To run the following FMs:
+* OCS_GET_INSTALLED_COMPS
+* RFC_READ_TABLE
+
+and read the following tables:
+* CWBNTCUST
+* PATCHHIST
+
 ## Uninstall
 ```sh
 python3 -m pip uninstall offlinesec-connector
