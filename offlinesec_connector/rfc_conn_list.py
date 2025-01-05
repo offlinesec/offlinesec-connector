@@ -2,7 +2,7 @@ import os
 import yaml
 from pathlib import Path
 
-DEFAULT_FILE_NAME = "sap_connections_example.yaml"
+DEFAULT_FILE_NAME = "sap_connections.yaml"
 DEFAULT_DIR = ".offlinesec_client"
 
 class RFCConnList:
