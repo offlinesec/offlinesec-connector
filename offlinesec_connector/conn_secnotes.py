@@ -2,8 +2,8 @@
 import offlinesec_files
 import conn_func
 import os
-from rfc_connection import RFCConnection
-from rfc_conn_list import RFCConnList
+from offlinesec_connector.rfc_connection import RFCConnection
+from offlinesec_connector.rfc_conn_list import RFCConnList
 
 def process_connections(conn_settings, temp_dir):
     if conn_settings is None or not len(conn_settings):

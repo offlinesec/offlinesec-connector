@@ -1,5 +1,5 @@
 import socket
-from  key_storage import OfflinesecKeyring
+from  offlinesec_connector.key_storage import OfflinesecKeyring
 from pyrfc import Connection
 
 DELETE_NOT_PYRFC = ["groups", "type"]

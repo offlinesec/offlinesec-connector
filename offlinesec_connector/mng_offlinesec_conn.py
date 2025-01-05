@@ -1,7 +1,7 @@
 import argparse
-from key_storage import OfflinesecKeyring
+from offlinesec_connector.key_storage import OfflinesecKeyring
 
-from rfc_conn_list import RFCConnList
+from offlinesec_connector.rfc_conn_list import RFCConnList
 
 def init_args():
     parser = argparse.ArgumentParser()
