@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name='offlinesec_connector',
+    name='offlinesec-connector',
     version=offlinesec_connector.__version__,
     packages=find_packages(),
     url='https://offlinesec.com',
