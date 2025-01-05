@@ -19,6 +19,7 @@ class OfflinesecKeyring:
         service_name = OfflinesecKeyring.get_service_name(system_name, client_num)
         try:
             keyring.delete_password(service_name=service_name, username=user_name)
+            print(" * The password for '%s:%s (%s)' deleted" % (system_name, client_num, user_name))
         except Exception as err:
             print(" * [Warning] The password not found in KeyRing DB for '%s:%s (%s)' " % (system_name, client_num, user_name))
 
@@ -32,11 +33,12 @@ class OfflinesecKeyring:
             if x in ["Y", "y"]:
                 print("Please set the new password for system: %s , client: %s, user: %s" % (system_name, client_num, user_name))
                 while True:
-                    # doesn't work, need to retest!
                     x1 = getpass.getpass("New password:")
                     x2 = getpass.getpass("Repeat password:")
                     if x1==x2:
                         break
+                    else:
+                        print("* [Warning] The passwords not matched. Please try again")
                 OfflinesecKeyring.save_password(system_name, user_name, client_num, x1)
                 return x1
         else:

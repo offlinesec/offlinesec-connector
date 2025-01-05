@@ -1,9 +1,8 @@
 
-import offlinesec_files
-import conn_func
-import os
+from offlinesec_connector.conn_func import create_temp_dir, read_exclude_file, read_sla_file, delete_files
 from offlinesec_connector.rfc_connection import RFCConnection
 from offlinesec_connector.rfc_conn_list import RFCConnList
+from offlinesec_connector.offlinesec_files import *
 
 def process_connections(conn_settings, temp_dir):
     if conn_settings is None or not len(conn_settings):
@@ -16,15 +15,15 @@ def process_connections(conn_settings, temp_dir):
         new_item = dict()
         new_item["name"] = conn_settings["name"]
         new_item["type"] = "ABAP"
-        file_softs = offlinesec_files.create_software_components(sap_conn, temp_dir=temp_dir)
+        file_softs = create_software_components(sap_conn, temp_dir=temp_dir)
         if file_softs is not None:
             new_item["softs"] = os.path.basename(file_softs)
             files_to_delete.append(file_softs)
-        file_notes = offlinesec_files.create_cwbntcust_file(sap_conn, temp_dir=temp_dir)
+        file_notes = create_cwbntcust_file(sap_conn, temp_dir=temp_dir)
         if file_notes is not None:
             new_item["cwbntcust"] = os.path.basename(file_notes)
             files_to_delete.append(file_notes)
-        krnl_dict = offlinesec_files.get_kernel_info(sap_conn)
+        krnl_dict = get_kernel_info(sap_conn)
         if krnl_dict:
             if "version" in krnl_dict:
                 new_item["krnl_version"] = krnl_dict["version"]
@@ -48,7 +47,7 @@ def parse_connections_notes(args):
     exclude_content = None
     sla_content = None
 
-    temp_dir = conn_func.create_temp_dir()
+    temp_dir = create_temp_dir()
     if not temp_dir:
         return
 
@@ -67,13 +66,13 @@ def parse_connections_notes(args):
         if not os.path.isfile(args["exclude_file"]):
             print(" * [Warning] The exclusion file '%s' not found" % (args["exclude_file"],))
         else:
-            exclude_content = conn_func.read_exclude_file(args["exclude_file"])
+            exclude_content = read_exclude_file(args["exclude_file"])
 
     if "sla_file" in args and args["sla_file"]:
         if not os.path.isfile(args["sla_file"]):
             print(" * [Warning] The exclusion file '%s' not found" % (args["sla_file"],))
         else:
-            sla_content = conn_func.read_exclude_file(args["sla_file"])
+            sla_content = read_sla_file(args["sla_file"])
 
     for conn_id in connection_list:
         conn_settings = storage.get_conn_by_id(conn_id)
@@ -86,13 +85,13 @@ def parse_connections_notes(args):
             continue
 
         if exclude_content:
-            exclude_file = offlinesec_files.get_exclude_file(exclude_content, conn_settings, temp_dir=temp_dir)
+            exclude_file = get_exclude_file(exclude_content, conn_settings, temp_dir=temp_dir)
             if exclude_file:
                 new_system["exclude"] = os.path.basename(exclude_file)
                 new_system["files_to_delete"].append(exclude_file)
 
         if sla_content:
-            sla_file = offlinesec_files.get_sla_file(sla_content, conn_settings, temp_dir=temp_dir)
+            sla_file = get_sla_file(sla_content, conn_settings, temp_dir=temp_dir)
             if sla_file:
                 new_system["sla"] = os.path.basename(sla_file)
                 new_system["files_to_delete"].append(sla_file)
@@ -104,7 +103,7 @@ def parse_connections_notes(args):
 
 
     if len(gen_file_list):
-        json_config_file = offlinesec_files.create_json_config(gen_file_list, temp_dir=temp_dir)
+        json_config_file = create_json_config(gen_file_list, temp_dir=temp_dir)
         print(" * Successfully collected data for %s system(s)" % (len(gen_file_list),))
     else:
         print(" * [ERROR] No data to send to the server")
@@ -115,7 +114,7 @@ def parse_connections_notes(args):
         return
 
     if json_config_file:
-        offlinesec_files.run_offlinesec_sec_notes(json_config_file, args)
+        run_offlinesec_sec_notes(json_config_file, args)
 
     if "delete_files" in args and args["delete_files"]:
-        conn_func.delete_files(files_to_delete)
+        delete_files(files_to_delete)

@@ -2,7 +2,7 @@ import os
 import yaml
 from pathlib import Path
 
-DEFAULT_FILE_NAME = "sap_connections.yaml"
+DEFAULT_FILE_NAME = "sap_connections_example.yaml"
 DEFAULT_DIR = ".offlinesec_client"
 
 class RFCConnList:
@@ -16,7 +16,7 @@ class RFCConnList:
         else:
             self.content = self.create_file()
             if not ignore_errors:
-                print(" * [ERROR] The '%s' not found in the '%s' folder. Please create the connection file first using offlinesec_connector -f <local_file.yaml>" % (file_name, file_dir))
+                print(" * [ERROR] The '%s' not found in the '%s' folder. Please create the connection file first using offlinesec_conn_settings -f <local_file.yaml>" % (file_name, file_dir))
 
     def read_file(self, file_name=None, ignore_errors=False):
         file_name = self.file_name if file_name is None else file_name
@@ -53,6 +53,7 @@ class RFCConnList:
         conn_by_id = self.get_conn_by_id(conn_id)
         if conn_by_id:
             del self.content["sap_systems"][conn_id]
+            print(" * The connection '%s' deleted" % (conn_id,))
         else:
             print(" * [Warning] The connection '%s' not found" % (conn_id,))
 
@@ -61,6 +62,7 @@ class RFCConnList:
             return
         with open(self.file_name) as f:
             for line in f:
+                line = line.strip("\r\n")
                 print(line)
 
     def create_file(self):

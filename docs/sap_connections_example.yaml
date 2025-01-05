@@ -1,0 +1,29 @@
+sap_systems:
+    # Connection with SNC and MS
+    SY1:                            # Connection name (usually =SID)
+        mshost: "10.10.10.1"        # Message Server IP address or hostname
+        user : "OFFLINESEC"         # Username
+        name: "SY1"                 # SID
+        msserv: "3600"              # Message Server Port
+        client: "100"               # Client
+        group: "SPACE"              # MS Group name
+        snc_mode: "1"               # Enabling SNC
+        snc_qop: "8"                # SNC mode
+        snc_partnername: "p:CN=SAPServiceSY1"  # Server Certificate Name (from the tr. STRUST)
+        groups:                     # Groupnames for convenience
+            - g:SBX                 # Sandbox
+            - g:ALL                 # All systems
+            - g:ECC                 # Landscape/Product
+
+    # Connection without SNC and MS. Password will be set during first connection attempt
+    SY2:                            # Connection name (usually =SID)
+        ashost: "10.10.10.2"        # Application server IP address or hostname
+        user: "OFFLINESEC"          # Username
+        name: "SY2"                 # SID
+        sysnr: "00"                 # Instance number
+        client: "000"               # Client number
+        groups:                     # Groupnames for convenience
+            - g:DEV                 # Development
+            - g:ALL                 # All systems
+            - g:S4                  # Landscape/Product
+

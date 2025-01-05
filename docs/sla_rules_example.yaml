@@ -1,0 +1,10 @@
+- systems:                  # Valid for systems
+    - "*"                   # Valid for all systems
+  hotnews: 10               # We want to implement "HotNews" notes in 10 days
+  high: 30                  # We want to implement "High Priority" notes in 30 days
+  medium: 45                # We want to implement "Medium Priority" notes in 45 days
+  low: 60                   # We want to implement "Low Priority" notes in 60 days
+- systems:                  # Next definition only for one system SY1. A definition related to particular system has higher priority
+    - SY1                   # SID or group name
+  hotnews: 15               # We want to implement "HotNews" notes in 15 days
+  high: 45                  # We want to implement "High Priority" notes in 45 days

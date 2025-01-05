@@ -1,11 +1,10 @@
-
 import argparse
-import conn_secnotes
+import offlinesec_connector.conn_secnotes
 
 def init_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-r", "--request", action='store', choices=["notes", "params"], default="notes",
-                        help="Request type", required=True)
+                        help="Request type", required=False)
     parser.add_argument("-c", "--conn_id", action="append",
                         help="Connection ID", required=False)
     parser.add_argument("-g", "--groups", action="append",
@@ -32,7 +31,7 @@ def main():
     args = init_args()
     if (args["conn_id"] and len(args["conn_id"])) or (args["groups"] and len(args["groups"])):
         if args["request"] and args["request"] == "notes":
-            conn_secnotes.parse_connections_notes(args)
+            offlinesec_connector.conn_secnotes.parse_connections_notes(args)
 
 if __name__ == "__main__":
     main()

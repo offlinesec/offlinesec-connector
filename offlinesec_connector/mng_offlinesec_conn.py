@@ -1,6 +1,5 @@
 import argparse
 from offlinesec_connector.key_storage import OfflinesecKeyring
-
 from offlinesec_connector.rfc_conn_list import RFCConnList
 
 def init_args():
@@ -17,13 +16,13 @@ def init_args():
     parser.add_argument("-p", "--password", action="append",
                         help="Delete password for connection", required=False)
 
-    #update password for conn
-
+    # confirmation of actions
 
     parser.parse_args()
     return vars(parser.parse_args())
 
-def main(args):
+def main():
+    args = init_args()
     if "list" in args and args["list"]:
         conn_list = RFCConnList()
         if len(conn_list.content["sap_systems"]):
@@ -34,6 +33,7 @@ def main(args):
         new_file = conn_list.read_file(args["file"])
         if new_file:
             conn_list.update_content(new_file)
+            print("* Settings updated")
             conn_list.save_file_content()
 
     elif "delete_conn" in args and args["delete_conn"]:
@@ -55,5 +55,4 @@ def main(args):
                 print(" * [Warning] The connection '%s' not found" % (item,))
 
 if __name__ == "__main__":
-    args = init_args()
-    main(args)
+    main()

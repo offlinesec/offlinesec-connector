@@ -1,6 +1,6 @@
 import socket
-from  offlinesec_connector.key_storage import OfflinesecKeyring
 from pyrfc import Connection
+from  offlinesec_connector.key_storage import OfflinesecKeyring
 
 DELETE_NOT_PYRFC = ["groups", "type"]
 DEFAULT_LANGUAGE = "EN"
@@ -15,12 +15,13 @@ class RFCConnection:
         if "lang" not in self.options:
             self.options["lang"] = DEFAULT_LANGUAGE
 
+        self.get_password_if_needed()
+
         self.errors = list()
         if not self.check_port_availability():
             self.conn = None
             return
 
-        self.get_password_if_needed()
         try:
             self.conn = Connection(**conn_params)
         except Exception as err:
