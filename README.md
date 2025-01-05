@@ -55,13 +55,14 @@ pip3 show offlinesec-connector
 ```sh
 offlinesec_conn_settings -f settings.yaml
 ```
-where settings.yaml file - a file with connection settings to SAP. Please refer to the doc.
+where settings.yaml file - a file with connection settings to SAP. Please refer to [the doc](./docs/offlinesec_conn_settings.md).
 
 2. Run the connector
 ```sh
 offlinesec_connector -c DEV
 ```
 where DEV - a connection name from the settings file
+Please refer to [the doc](./docs/offlinesec_connector.md)
 
 ```sh
 offlinesec_connector -g 'g:productions'
@@ -73,6 +74,7 @@ where 'g:productions' - a groupname from the settings file
 ```sh
 offlinesec_connector -c DEV
 ```
+Please refer to [the doc](./docs/offlinesec_connector.md)
 
 ## Uninstall
 ```sh
